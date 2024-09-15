@@ -14,23 +14,23 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
 
-#  app:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    container_name: spring-app
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/mi_base_de_datos
-#      SPRING_DATASOURCE_USERNAME: usuario
-#      SPRING_DATASOURCE_PASSWORD: contraseña
-#    depends_on:
-#      - mysql
-#    ports:
-#      - "8080:8080"
-#    networks:
-#      - my-network
-#    volumes:
-#      - app-data:/app
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/irrizun
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: user123
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+    volumes:
+      - app-data:/app
 
 networks:
   my-network:
