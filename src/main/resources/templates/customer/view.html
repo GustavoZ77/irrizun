@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalles del Cliente</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Detalles del Cliente</h1>
+    <div class="form-group">
+        <label for="name">Nombre:</label>
+        <p id="name" th:text="${customer.name}"></p>
+    </div>
+    <div class="form-group">
+        <label for="lastName">Apellido:</label>
+        <p id="lastName" th:text="${customer.lastName}"></p>
+    </div>
+    <div class="form-group">
+        <label for="address">Dirección:</label>
+        <p id="address" th:text="${customer.address}"></p>
+    </div>
+    <div class="form-group">
+        <label for="phone">Teléfono:</label>
+        <p id="phone" th:text="${customer.phone}"></p>
+    </div>
+    <div class="form-group">
+        <label for="RFC">RFC:</label>
+        <p id="RFC" th:text="${customer.RFC}"></p>
+    </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <p id="email" th:text="${customer.email}"></p>
+    </div>
+    <div class="form-group">
+        <label for="status">Estado:</label>
+        <p id="status" th:text="${customer.status} ? 'Activo' : 'Inactivo'"></p>
+    </div>
+    <a href="/customers" class="btn btn-primary">Volver a la lista</a>
+    <a th:href="@{/customers/edit/{id}(id=${customer.id})}" class="btn btn-warning">Editar</a>
+</div>
+<!-- Botón para volver a la página de inicio -->
+<a th:href="@{/home}" class="btn btn-secondary mt-3">Volver a Inicio</a>
+</body>
+</html>

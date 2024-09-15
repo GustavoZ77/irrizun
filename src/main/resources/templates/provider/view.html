@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalles del Proveedor</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Detalles del Proveedor</h1>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <td th:text="${provider.id}"></td>
+        </tr>
+        <tr>
+            <th>Nombre</th>
+            <td th:text="${provider.name}"></td>
+        </tr>
+        <tr>
+            <th>Teléfono</th>
+            <td th:text="${provider.phone}"></td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td th:text="${provider.email}"></td>
+        </tr>
+        <tr>
+            <th>Dirección</th>
+            <td th:text="${provider.address}"></td>
+        </tr>
+        <tr>
+            <th>Estado</th>
+            <td th:text="${provider.status ? 'Activo' : 'Inactivo'}"></td>
+        </tr>
+    </table>
+    <a class="btn btn-primary" href="/providers">Volver a la lista</a>
+    <!-- Botón para volver a la página de inicio -->
+    <a th:href="@{/home}" class="btn btn-secondary mt-3">Volver a Inicio</a>
+</div>
+</body>
+</html>

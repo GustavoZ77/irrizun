@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detalles de Cotización</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Detalles de la Cotización</h1>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <td th:text="${quotation.id}"></td>
+        </tr>
+        <tr>
+            <th>Fecha</th>
+            <td th:text="${#dates.format(quotation.date, 'dd/MM/yyyy')}"></td>
+        </tr>
+        <tr>
+            <th>Cliente</th>
+            <td th:text="${quotation.customer.name}"></td>
+        </tr>
+        <tr>
+            <th>Descripción</th>
+            <td th:text="${quotation.description}"></td>
+        </tr>
+        <tr>
+            <th>Monto Total</th>
+            <td th:text="${quotation.amount}"></td>
+        </tr>
+        <tr>
+            <th>Validez (días)</th>
+            <td th:text="${quotation.validity}"></td>
+        </tr>
+        <tr>
+            <th>Tiempo de entrega</th>
+            <td th:text="${#dates.format(quotation.deliveryTime, 'dd/MM/yyyy')}"></td>
+        </tr>
+        <tr>
+            <th>Estado</th>
+            <td th:text="${quotation.status ? 'Activa' : 'Inactiva'}"></td>
+        </tr>
+        <tr>
+            <th>Productos</th>
+            <td>
+                <ul>
+                    <li th:each="detail : ${quotation.quotationDetails}"
+                        th:text="${detail.product.description + ' - Cantidad: ' + detail.quantity}">
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+    <a class="btn btn-secondary" href="/quotations">Volver a la lista</a>
+    <a class="btn btn-warning" th:href="@{/quotations/edit/{id}(id=${quotation.id})}">Editar</a>
+    <form th:action="@{/quotations/delete/{id}(id=${quotation.id})}" method="post" style="display:inline;">
+        <input type="hidden" name="_method" value="delete"/>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta cotización?');">Eliminar</button>
+    </form>
+    <!-- Botón para volver a la página de inicio -->
+    <a th:href="@{/home}" class="btn btn-secondary mt-3">Volver a Inicio</a>
+</div>
+</body>
+</html>

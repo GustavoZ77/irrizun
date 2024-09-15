@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Proveedores</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Lista de Proveedores</h1>
+    <a class="btn btn-primary mb-3" href="/providers/new">Nuevo Proveedor</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Dirección</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="provider : ${providers}">
+            <td th:text="${provider.id}"></td>
+            <td th:text="${provider.name}"></td>
+            <td th:text="${provider.phone}"></td>
+            <td th:text="${provider.email}"></td>
+            <td th:text="${provider.address}"></td>
+            <td th:text="${provider.status ? 'Activo' : 'Inactivo'}"></td>
+            <td>
+                <a class="btn btn-info btn-sm" th:href="@{/providers/view/{id}(id=${provider.id})}">Ver</a>
+                <a class="btn btn-warning btn-sm" th:href="@{/providers/edit/{id}(id=${provider.id})}">Editar</a>
+                <form th:action="@{/providers/delete/{id}(id=${provider.id})}" method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este proveedor?');">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Botón para volver a la página de inicio -->
+    <a th:href="@{/home}" class="btn btn-secondary mt-3">Volver a Inicio</a>
+</div>
+</body>
+</html>

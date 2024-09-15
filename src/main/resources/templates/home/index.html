@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Inicio</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .grid-item {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background-color: #f8f9fa;
+            margin-bottom: 30px; /* Espacio entre las filas de paneles */
+        }
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        }
+        .grid-item i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+        .grid-item a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            display: block;
+        }
+        .grid-item a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+        .row {
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        .col-md-4 {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        /* Ajuste de márgenes en columnas para separación adicional */
+        .col-md-4 {
+            margin-bottom: 30px; /* Espacio entre filas de columnas */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">IrriZun</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="grid-item">
+                <i class="fas fa-users"></i>
+                <h2><a th:href="@{/customers}">Clientes</a></h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="grid-item">
+                <i class="fas fa-user"></i>
+                <h2><a th:href="@{/users}">Usuarios</a></h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="grid-item">
+                <i class="fas fa-clipboard-list"></i>
+                <h2><a th:href="@{/quotations}">Cotizaciones</a></h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="grid-item">
+                <i class="fas fa-truck"></i>
+                <h2><a th:href="@{/providers}">Proveedores</a></h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="grid-item">
+                <i class="fas fa-box"></i>
+                <h2><a th:href="@{/products}">Productos</a></h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="grid-item">
+                <i class="fas fa-cogs"></i>
+                <h2><a th:href="@{/unities}">Unidades</a></h2>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

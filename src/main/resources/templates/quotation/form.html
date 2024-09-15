@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario de Cotización</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        // Función para añadir una nueva fila de detalle de cotización
+        function addQuotationDetail() {
+            var container = document.getElementById('quotationDetailsContainer');
+            var index = container.children.length;
+
+            // Obtener todos los productos seleccionados para verificar duplicados
+            var selectedProducts = Array.from(document.querySelectorAll('input[name^="quotationDetails"]'))
+                .map(input => input.value);
+
+            // Verificar si algún producto está repetido o no seleccionado
+            var productSelect = document.getElementById('product-template');
+            if (productSelect.value === "" || selectedProducts.includes(productSelect.value)) {
+                alert("Este producto ya ha sido agregado o no has seleccionado un producto válido.");
+                return;
+            }
+
+            var newRow = document.createElement('div');
+            newRow.classList.add('form-row', 'align-items-end', 'mt-2');
+            newRow.setAttribute('id', 'quotationDetail-' + index);
+
+            // Campo de nombre del producto (en lugar de select)
+            var productCol = document.createElement('div');
+            productCol.classList.add('col');
+            var selectedOption = productSelect.options[productSelect.selectedIndex];
+            productCol.innerHTML = `
+                <label for="productName-${index}">Producto</label>
+                <input type="text" id="productName-${index}" value="${selectedOption.text}" class="form-control" readonly>
+                <input type="hidden" name="quotationDetails[${index}].product.id" value="${selectedOption.value}">
+            `;
+            newRow.appendChild(productCol);
+
+            // Campo de cantidad
+            var quantityCol = document.createElement('div');
+            quantityCol.classList.add('col');
+            quantityCol.innerHTML = `
+                <label for="quantity-${index}">Cantidad</label>
+                <input type="number" id="quantity-${index}" name="quotationDetails[${index}].quantity" class="form-control" required>
+            `;
+            newRow.appendChild(quantityCol);
+
+            // Botón de eliminar detalle
+            var removeCol = document.createElement('div');
+            removeCol.classList.add('col');
+            removeCol.innerHTML = `
+                <button type="button" class="btn btn-danger mt-4" onclick="removeQuotationDetail(${index})">Eliminar</button>
+            `;
+            newRow.appendChild(removeCol);
+
+            container.appendChild(newRow);
+        }
+
+        // Función para eliminar una fila de detalle de cotización
+        function removeQuotationDetail(index) {
+            var row = document.getElementById('quotationDetail-' + index);
+            row.remove();
+        }
+    </script>
+</head>
+<body>
+<div class="container mt-4">
+    <h1 th:text="${quotation.id == null} ? 'Nueva Cotización' : 'Editar Cotización'"></h1>
+    <form th:action="@{/quotations/save}" th:object="${quotation}" method="post">
+        <div class="form-group">
+            <label for="customer">Cliente</label>
+            <select id="customer" class="form-control" th:field="*{customer.id}" required>
+                <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="date">Fecha</label>
+            <input type="date" id="date" class="form-control" th:field="*{date}" required>
+        </div>
+        <div class="form-group">
+            <label for="deliveryTime">Fecha de Entrega</label>
+            <input type="date" id="deliveryTime" class="form-control" th:field="*{deliveryTime}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Descripción</label>
+            <textarea id="description" class="form-control" th:field="*{description}" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="validity">Validez (en días)</label>
+            <input type="number" id="validity" class="form-control" th:field="*{validity}" required>
+        </div>
+        <div class="form-group">
+            <label for="status">Estado</label>
+            <select id="status" class="form-control" th:field="*{status}">
+                <option value="true" th:selected="${quotation.status == true}">Activo</option>
+                <option value="false" th:selected="${quotation.status == false}">Inactivo</option>
+            </select>
+        </div>
+
+        <!-- QuotationDetails Section -->
+        <h2>Detalles de Cotización</h2>
+        <div id="quotationDetailsContainer">
+            <div th:each="quotationDetail, iter : ${quotation.quotationDetails}" class="form-row align-items-end mt-2" th:id="'quotationDetail-' + ${iter.index}">
+                <div class="col">
+                    <label for="productName-${iter.index}">Producto</label>
+                    <input type="text" id="productName-${iter.index}" th:value="${quotationDetail.product.description}" class="form-control" readonly>
+                    <input type="hidden" name="quotationDetails[__${iter.index}__].product.id" th:value="${quotationDetail.product.id}">
+                </div>
+                <div class="col">
+                    <label for="quantity-${iter.index}">Cantidad</label>
+                    <input type="number" id="quantity-${iter.index}" th:field="*{quotationDetails[__${iter.index}__].quantity}" class="form-control" required>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-danger mt-4" onclick="removeQuotationDetail(${iter.index})">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row align-items-end mt-4">
+            <div class="col">
+                <label for="product-template">Nuevo Producto</label>
+                <select id="product-template" class="form-control">
+                    <option value="">Selecciona un producto</option>
+                    <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.description}"></option>
+                </select>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-secondary mt-4" onclick="addQuotationDetail()">Agregar Detalle</button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Guardar Cotización</button>
+        <a href="/quotations" class="btn btn-secondary mt-3">Cancelar</a>
+    </form>
+    <!-- Botón para volver a la página de inicio -->
+    <a th:href="@{/home}" class="btn btn-secondary mt-3">Volver a Inicio</a>
+</div>
+</body>
+</html>

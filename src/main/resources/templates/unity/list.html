@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Unidades</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Lista de Unidades</h1>
+    <a class="btn btn-primary mb-3" href="/unities/new">Nueva Unidad</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="unity : ${unities}">
+            <td th:text="${unity.id}"></td>
+            <td th:text="${unity.description}"></td>
+            <td th:text="${unity.status ? 'Activo' : 'Inactivo'}"></td>
+            <td>
+                <a class="btn btn-warning btn-sm" th:href="@{/unities/edit/{id}(id=${unity.id})}">Editar</a>
+                <form th:action="@{/unities/delete/{id}(id=${unity.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Botón para volver a la página de inicio -->
+    <a th:href="@{/home}" class="btn btn-secondary mt-3">Volver a Inicio</a>
+</div>
+</body>
+</html>
