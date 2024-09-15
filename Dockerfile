@@ -10,10 +10,12 @@ RUN apk update && apk add git
 RUN git clone https://github.com/GustavoZ77/irrizun.git .
 
 # Construimos el proyecto usando Maven
+
+RUN pwd && ls -l
+CMD pwd && ls -l
 RUN gradle --version
-RUN gradle clean
-RUN gradle build
-RUN gradle bootJar
+RUN gradle clean --no-daemon
+RUN gradle build -x test --no-daemon
 
 # Usamos una imagen ligera de OpenJDK para ejecutar la aplicación
 FROM alpine/java:17-jdk
@@ -22,7 +24,7 @@ FROM alpine/java:17-jdk
 WORKDIR /app
 
 # Copiamos el archivo JAR desde la fase de compilación
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/build/libs/*.jar app.jar
 
 # Exponemos el puerto en el que corre la aplicación Spring Boot
 EXPOSE 8080
