@@ -36,6 +36,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .map(role -> new SimpleGrantedAuthority(role.getName()))  // Convertir cada rol en un GrantedAuthority
                 .collect(Collectors.toList());
 
+        System.out.println(user.getUserName());
+        System.out.println(user.getPwd());
+
+        user.getRoles().stream().forEach(System.out::println);
+
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUserName())
                 .password(user.getPwd())

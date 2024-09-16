@@ -1,4 +1,4 @@
-package zuun.tech.budget.controller;
+package zuun.tech.budget.repository;
 
 
 import org.springframework.data.repository.CrudRepository;
