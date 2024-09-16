@@ -5,8 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import zuun.tech.budget.repository.UserRepository;
 
-import java.util.Collections;
-
 @SpringBootApplication
 public class BudgetApplication  /*implements CommandLineRunner */{
 
@@ -14,10 +12,7 @@ public class BudgetApplication  /*implements CommandLineRunner */{
 	private  UserRepository userRepository;
 
 	public static void main(String[] args) {
-		SpringApplication app = new SpringApplication(BudgetApplication.class);
-		app.setDefaultProperties(Collections
-				.singletonMap("server.port", "9090"));
-		app.run(args);
+		SpringApplication.run(BudgetApplication.class, args);
 
 	}
 
