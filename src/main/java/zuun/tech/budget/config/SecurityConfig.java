@@ -31,6 +31,7 @@ public class SecurityConfig {
                         .failureUrl("/login?error=true")
                         .usernameParameter("username")
                         .passwordParameter("pwd")
+                        .disable()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
