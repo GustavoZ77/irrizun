@@ -8,6 +8,7 @@ RUN apk update && apk add git
 
 # Clonamos el repositorio de Git (reemplaza con tu repositorio)
 RUN git clone https://github.com/GustavoZ77/irrizun.git .
+RUN git pull
 
 # Construimos el proyecto usando Maven
 
