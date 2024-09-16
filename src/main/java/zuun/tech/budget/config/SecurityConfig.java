@@ -18,26 +18,14 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
-    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()  // Autenticar todas las rutas
+                        .anyRequest().permitAll()  // Permitir el acceso a todas las rutas sin autenticación
                 )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .permitAll()
-                        .defaultSuccessUrl("/home", true)
-                        .failureUrl("/login?error=true")
-                        .usernameParameter("username")
-                        .passwordParameter("pwd")
-                        .disable()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout=true")
-                        .permitAll()
-                );
+                .csrf(csrf -> csrf.disable())  // Deshabilitar CSRF si no es necesario
+                .formLogin(formLogin -> formLogin.disable())  // Deshabilitar el login basado en formulario
+                .logout(logout -> logout.disable());  // Deshabilitar el logout si no es necesario
 
         return http.build();
     }
