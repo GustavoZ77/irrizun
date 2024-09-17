@@ -3,6 +3,7 @@ package zuun.tech.budget.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,9 +24,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()  // Permitir el acceso a todas las rutas sin autenticación
                 )
-                .csrf(csrf -> csrf.disable())  // Deshabilitar CSRF si no es necesario
-                .formLogin(formLogin -> formLogin.disable())  // Deshabilitar el login basado en formulario
-                .logout(logout -> logout.disable());  // Deshabilitar el logout si no es necesario
+                .csrf(AbstractHttpConfigurer::disable)  // Deshabilitar CSRF si no es necesario
+                .formLogin(AbstractHttpConfigurer::disable)  // Deshabilitar el login basado en formulario
+                .logout(AbstractHttpConfigurer::disable);  // Deshabilitar el logout si no es necesario
 
         return http.build();
     }

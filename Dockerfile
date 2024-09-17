@@ -1,4 +1,4 @@
-# Usamos una imagen base de Maven para compilar el proyecto
+# Usamos una imagen base de gradle
 FROM gradle:8.10.1-jdk17-alpine AS build
 
 # Configuramos el directorio de trabajo dentro del contenedor
@@ -6,11 +6,12 @@ WORKDIR /app
 
 RUN apk update && apk add git
 
-# Clonamos el repositorio de Git (reemplaza con tu repositorio)
+# Clonamos el repositorio de Git
 RUN git clone https://github.com/GustavoZ77/irrizun.git .
-RUN git pull
+RUN git checkout master
+RUN git pull origin master
 
-# Construimos el proyecto usando Maven
+# Construimos el proyecto
 
 RUN pwd && ls -l
 CMD pwd && ls -l
