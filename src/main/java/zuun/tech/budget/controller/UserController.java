@@ -1,6 +1,7 @@
 package zuun.tech.budget.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,7 @@ public class UserController {
     // Guardar un usuario (nuevo o actualizado)
     @PostMapping("/save")
     public String saveUser(@ModelAttribute("user") User user) {
+        user.setPwd(new BCryptPasswordEncoder().encode(user.getPwd()));
         userService.saveUser(user);
         return "redirect:/users";
     }

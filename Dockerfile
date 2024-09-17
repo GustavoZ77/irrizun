@@ -6,16 +6,18 @@ WORKDIR /app
 
 RUN apk update && apk add git
 
+
+# Limpiamos cualquier archivo viejo antes de clonar
+RUN rm -rf /app/*
+
 # Clonamos el repositorio de Git
 RUN git clone https://github.com/GustavoZ77/irrizun.git .
 RUN git checkout master
 RUN git pull origin master
 
-# Construimos el proyecto
 
 RUN pwd && ls -l
-CMD pwd && ls -l
-RUN gradle --version
+
 RUN gradle clean --no-daemon
 RUN gradle build -x test --no-daemon
 
